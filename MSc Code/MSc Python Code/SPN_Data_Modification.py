@@ -90,6 +90,8 @@ def one_hot(data_col):
     # create set of all the different class labels - might be strings; put these in a list
     list_of_values=bubble_sort(unique(data_col))
     
+    print(list_of_values)
+    
     #### CAN print to see if some instances are mislabeled
     
     # determine how many separate classes there are

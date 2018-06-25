@@ -74,7 +74,9 @@ encoding_list=[1,0,1,1,0,1,1,0,1,1,0,1,0,1,1,0,1,0,2,2,2]
 # Ranges of all the attributes with high statistical dependency on the protected (including the protected)
 unique_range=[[44, 49], [53, 54], [57, 61], [61, 65], [65, 75], [78, 81], [85, 89], [89, 91], [91, 92]]
 
-# The only continuous protected attribute which happens to exhibit high statistical dependency on the protected attribute is encoded in the range [65-74] inclusive. (This is age), the 6th .
+# The only continuous protected attributes which happen to exhibit high statistical dependency are AGE (65-74), DEPENDENTS (89-90) and PERCENTAGE OF INCOME (57-61).
+
+
 
 # We now isolate this attribute and compute the expectation:
 
