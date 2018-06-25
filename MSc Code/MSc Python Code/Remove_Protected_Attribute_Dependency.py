@@ -2,17 +2,18 @@
 
 import csv
 import numpy as np
+import math
 
 # Converts a file of comma separated values into a numerical array.
 def array_preprocess(filename):
     file=open(filename,"r")
     original_data=file.read().split('\n')
     resulting_array=[]
-    for row in original_data:
+    for row in original_data[:-1]:
         value_storer=[]
         string_vals=row.split(',')
         for s in string_vals:
-            num=int(s)
+            num=float(s)
             value_storer.append(num)
         resulting_array.append(value_storer)
     return resulting_array
@@ -23,13 +24,13 @@ def list_preprocess(filename):
     original_data=file.read().split('\n')
     resulting_array=[]
     for s in original_data:
-        resulting_array.append(int(s))
+        resulting_array.append(float(s))
     return resulting_array
 
 # To compute the mean of the continuous attributes, we assume a continuous internal distribution and therefore the expectation can be given as the probability for it to lie in the range times the middle value of the range.
 
 def expectation(mids,probabilities):
-    assert (len(mids)=len(probabilities))
+    assert (len(mids)==len(probabilities))
     expectation=0
     for bin,mid in mids:
         expectation = expectation+mid*probabilities[bin]
@@ -37,29 +38,47 @@ def expectation(mids,probabilities):
 
 def calculate_middles(interval_list):
     middles = []
-    for threshold, interval_number in enumerate(intervals[:-1]):
-        mid=(threshold+intervals[attribute][interval_number+1])/2
+    for interval_number, threshold in enumerate(interval_list[:-1]):
+        mid=(threshold+interval_list[interval_number+1])/2
         middles.append(mid)
     return middles
 
 
 # One-hot encoded test data:
-original_test_oh=preprocess("germancredit.ts.data")
+original_test_oh=array_preprocess("germancredit.ts.data")
 
 # List of the bin boundaries initially used to categorise continuous variables.
-intervals=preprocess("germancredit.intervals.data")
+intervals=array_preprocess("germancredit.intervals.data")
 
 # Log likelihoods for all DEPENDENT attributes calculated by the SPN.
 log_likelihoods_male=list_preprocess("Inference_Male_Log_Likelihoods")
 log_likelihoods_female=list_preprocess("Inference_Female_Log_Likelihoods")
 
 # Convert log likelihoods to probabilities.
-probabilities_male=[exp(i) for i in log_likelihoods_male]
-probabilities_female=[exp(i) for i in log_likelihoods_female]
+probabilities_male=[math.exp(i) for i in log_likelihoods_male]
+probabilities_female=[math.exp(i) for i in log_likelihoods_female]
 
 
-print original_array[0]
-print intervals
+print(intervals)
+
+all_mids=[]
+for continuous_data in intervals:
+    all_mids.append(calculate_middles(continuous_data))
+
+print(all_mids)
+
+four_discrete=[1.0,2.0,3.0,4.0]
+two_discrete=[1.0,4.0]
+
+discrete_encoder=[0,0,4,4,0,4,2]
+
+for attribute,list in enumerate(all_mids):
+    if discrete_encoder[attribute]==4:
+        all_mids[attribute]=four_discrete
+    elif discrete_encoder[attribute]==2:
+        all_mids[attribute]=two_discrete
+
+print(all_mids)
 
 
 # Reimport original data

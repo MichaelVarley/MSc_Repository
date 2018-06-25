@@ -40,6 +40,9 @@ def bins(data_col, num_of_bins):
     interval = (maximum-minimum)/num_of_bins
     interval_list = [minimum+(l*interval) for l in range((num_of_bins+1))]
     # [min,min+interval,min+2*interval,...,max]
+    print("intervals")
+    print(interval_list)
+    
     
     # Write interval list to file.
 
