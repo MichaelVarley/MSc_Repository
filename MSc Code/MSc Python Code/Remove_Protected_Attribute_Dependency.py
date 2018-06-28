@@ -165,6 +165,18 @@ for attribute,position in enumerate(prob_cumulative[:-1]):
 print (all_cont_male_expectations)
 print (all_cont_female_expectations)
 
+## Post processsing:
+
+# Import data and turn it into the "one-hot categorical, discrete stay constant" format.
+# Adjust the discrete data by subtracting off the expectations.
+# Adjust the categorical data EITHER by adjusting using a MIXTURE MODEL, or alternatively by simply subtracting the raw conditional mean of each presented attribute. In fact, why not try both??
+# Remember to do this ONLY for the conditionally dependent attributes.
+# Also, remember to divide the dataset into the same categories as before. (Train,Val,Test).
+# Have a look at how the different models perform on the validation set.
+
+
+# NOTE TO SELF: In introduction - make the distinction between preprocessing and intraprocessing.
+
 
 # The only continuous protected attributes which happen to exhibit high statistical dependency are AGE (65-74), DEPENDENTS (89-90) and PERCENTAGE OF INCOME (57-61).
 
